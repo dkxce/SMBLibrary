@@ -1,3 +1,5 @@
+**SVC Version**
+
 About SMBLibrary:
 =================
 SMBLibrary is an open-source C# SMB 1.0/CIFS, SMB 2.0, SMB 2.1 and SMB 3.0 server and client implementation.  
