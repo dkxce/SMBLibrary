@@ -1,4 +1,25 @@
 **SVC Version**
+================
+- Allow to change standard ports
+- Minimized Start
+- Tray Icon   
+- SMBServer.exe /install          (install win service)    
+- SMBServer.exe /uninstall        (uninstall win service)    
+- SMBServer.exe /start            (start win service)    
+- SMBServer.exe /stop             (stop win service)
+
+Settings.xml changes:
+=====================
+```
+ <Ports NetBIOS="139" Direct="7445" Choosen="Direct" SMB1="1" SMB2="1" IntegratedWindowsAuth="1"/>  
+ <Autorun Start="1" IP="Any" Minimized="1" />
+```
+- Choosen: *Direct* or *NetBIOS*
+- SMB1: 0 or 1       
+- SMB2: 0 or 1
+- IntegratedWindowsAuth: 0 or 1
+- Autorun Start: 0 or 1     
+- Minimized: 0 or 1         
 
 About SMBLibrary:
 =================
