@@ -1,7 +1,8 @@
 **SVC Version**
 ================
-<img src="Readme.png"/>           
-- Allow to change standard ports           
+<img src="Readme.png"/>  
+
+- Allow to change standard ports     
 - Minimized Start           
 - Tray Icon              
 - SMBServer.exe /install          (install win service)               
