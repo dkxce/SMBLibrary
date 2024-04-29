@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Settings>
   <Shares>
-    <Share Name="Shared" Path="C:\Shared">
+    <Share Name="Downloads" Path="C:\Downloads">
       <ReadAccess Accounts="*"></ReadAccess>
       <WriteAccess Accounts="Admin,Test"></WriteAccess>
     </Share>
@@ -11,4 +11,6 @@
     <User AccountName="Guest" Password=""></User>
     <User AccountName="Test" Password="test"></User>
   </Users>
+  <Ports NetBIOS="139" Direct="1445" Choosen="Direct" SMB1="1" SMB2="1" IntegratedWindowsAuth="1"/>  
+  <Autorun Start="1" IP="Any" Minimized="1" />
 </Settings>

@@ -19,8 +19,8 @@ namespace SMBLibrary.Server
 {
     public partial class SMBServer
     {
-        public static readonly int NetBiosOverTCPPort = 139;
-        public static readonly int DirectTCPPort = 445;
+        public static int NetBiosOverTCPPort = 139;
+        public static int DirectTCPPort = 445;
         public const string NTLanManagerDialect = "NT LM 0.12";
         public static readonly bool EnableExtendedSecurity = true;
         private static readonly int InactivityMonitoringInterval = 30000; // Check every 30 seconds
@@ -93,7 +93,7 @@ namespace SMBLibrary.Server
                     throw new ArgumentException("SMB2 must be enabled for SMB3 to be enabled");
                 }
 
-                Log(Severity.Information, "Starting server");
+                Log(Severity.Information, $"Starting server {port}");
                 m_serverAddress = serverAddress;
                 m_transport = transport;
                 m_enableSMB1 = enableSMB1;

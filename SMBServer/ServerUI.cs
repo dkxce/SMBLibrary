@@ -6,8 +6,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -34,7 +32,7 @@ namespace SMBServer
         }
 
         private void ServerUI_Load(object sender, EventArgs e)
-        {
+        {            
             List<IPAddress> localIPs = NetworkInterfaceHelper.GetHostIPAddresses();
             KeyValuePairList<string, IPAddress> list = new KeyValuePairList<string, IPAddress>();
             list.Add("Any", IPAddress.Any);
@@ -45,10 +43,37 @@ namespace SMBServer
             comboIPAddress.DataSource = list;
             comboIPAddress.DisplayMember = "Key";
             comboIPAddress.ValueMember = "Value";
+
+            try
+            {
+                int[] ports = SettingsHelper.ReadPortSettings();
+                netbiosPort.Value = ports[1];
+                directPort.Value = ports[2];
+                if (ports[0] == 0) rbtNetBiosOverTCP.Checked = true;
+                if (ports[0] == 1) rbtDirectTCPTransport.Checked = true;
+                chkSMB1.Checked = ports[3] == 1;
+                chkSMB2.Checked = ports[4] == 1;
+                chkIntegratedWindowsAuthentication.Checked = ports[5] == 1;
+            }
+            catch { };
+
+            try
+            {
+                string[] autorun = SettingsHelper.ReadAutorun();
+                for (int i = 0; i < list.Count; i++)
+                    if (list[i].Key == autorun[1])
+                        comboIPAddress.SelectedIndex = i;                
+                if (autorun[2] == "1") WindowState = FormWindowState.Minimized;
+                notifyIcon1.Text = $"{this.Text}: idle";
+                if (autorun[0] == "1") btnStart_Click(sender, e);
+            }
+            catch { };
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            SMBLibrary.Server.SMBServer.NetBiosOverTCPPort = (int)netbiosPort.Value;
+            SMBLibrary.Server.SMBServer.DirectTCPPort = (int)directPort.Value;
             IPAddress serverAddress = (IPAddress)comboIPAddress.SelectedValue;
             SMBTransportType transportType;
             if (rbtNetBiosOverTCP.Checked)
@@ -106,6 +131,7 @@ namespace SMBServer
             // To maximize server performance, you can disable logging by commenting out the following line.
             m_server.LogEntryAdded += new EventHandler<LogEntry>(m_logWriter.OnLogEntryAdded);
 
+            string status = "running";
             try
             {
                 m_server.Start(serverAddress, transportType, chkSMB1.Checked, chkSMB2.Checked);
@@ -116,12 +142,13 @@ namespace SMBServer
                         IPAddress subnetMask = NetworkInterfaceHelper.GetSubnetMask(serverAddress);
                         m_nameServer = new NameServer(serverAddress, subnetMask);
                         m_nameServer.Start();
-                    }
-                }
+                    };
+                };
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error");
+                status = $"error: {ex.Message}";
                 return;
             }
 
@@ -133,6 +160,9 @@ namespace SMBServer
             chkSMB1.Enabled = false;
             chkSMB2.Enabled = false;
             chkIntegratedWindowsAuthentication.Enabled = false;
+            netbiosPort.Enabled = false;
+            directPort.Enabled = false;
+            notifyIcon1.Text = $"{this.Text}: {status}";
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -147,11 +177,14 @@ namespace SMBServer
             chkSMB1.Enabled = true;
             chkSMB2.Enabled = true;
             chkIntegratedWindowsAuthentication.Enabled = true;
+            netbiosPort.Enabled = true;
+            directPort.Enabled = true;
 
             if (m_nameServer != null)
             {
                 m_nameServer.Stop();
             }
+            notifyIcon1.Text = $"{this.Text}: stopped";
         }
 
         private void chkSMB1_CheckedChanged(object sender, EventArgs e)
@@ -212,6 +245,26 @@ namespace SMBServer
                 }
             }
             return -1;
+        }
+
+        private void directPort_ValueChanged(object sender, EventArgs e)
+        {
+            rbtDirectTCPTransport.Checked = true;
+        }
+
+        private void netbiosPort_ValueChanged(object sender, EventArgs e)
+        {
+            rbtNetBiosOverTCP.Checked = true;
+        }
+
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (this.Visible && this.WindowState == FormWindowState.Minimized)
+            {
+                this.WindowState = FormWindowState.Normal;
+                return;
+            };
+            this.Visible = !this.Visible;            
         }
     }
 }

@@ -45,6 +45,29 @@ namespace SMBServer
             return users;
         }
 
+        public static int[] ReadPortSettings()
+        {
+            XmlDocument document = ReadSettingsXML();
+            XmlNode portNode = document.SelectSingleNode("Settings/Ports");
+            int NetBIOS = Convert.ToInt16(portNode.Attributes["NetBIOS"].Value);
+            int Direct = Convert.ToInt16(portNode.Attributes["Direct"].Value);
+            int Choosen = portNode.Attributes["Choosen"].Value == "Direct" ? 1 : 0;
+            int SMB1 = portNode.Attributes["SMB1"].Value == "1" ? 1 : 0;
+            int SMB2 = portNode.Attributes["SMB2"].Value == "1" ? 1 : 0;
+            int IntegratedWindowsAuth = portNode.Attributes["IntegratedWindowsAuth"].Value == "1" ? 1 : 0;
+            return new int[6] { Choosen, NetBIOS, Direct, SMB1, SMB2, IntegratedWindowsAuth };
+        }
+
+        public static string[] ReadAutorun()
+        {
+            XmlDocument document = ReadSettingsXML();
+            XmlNode autorunNode = document.SelectSingleNode("Settings/Autorun");            
+            string Start = autorunNode.Attributes["Start"].Value;
+            string IP = autorunNode.Attributes["IP"].Value;
+            string Minimized = autorunNode.Attributes["Minimized"].Value;
+            return new string[3] { Start, IP, Minimized };
+        }
+
         public static List<ShareSettings> ReadSharesSettings()
         {
             List<ShareSettings> shares = new List<ShareSettings>();

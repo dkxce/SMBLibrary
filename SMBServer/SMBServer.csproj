@@ -9,6 +9,14 @@
     <RootNamespace>SMBServer</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="  '$(TargetFramework)' == 'net40' or '$(Framework)' == 'net40' ">
+    <DefineConstants>NET40</DefineConstants>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="  '$(TargetFramework)' == 'net20' or '$(Framework)' == 'net20' ">
+    <DefineConstants>NET20</DefineConstants>
+  </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net20' ">
     <Reference Include="System.Windows.Forms" />
@@ -21,6 +29,10 @@
 
   <ItemGroup Condition="'$(Configuration)' != 'Release'">
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.ServiceProcess" />
   </ItemGroup>
 
   <ItemGroup>
