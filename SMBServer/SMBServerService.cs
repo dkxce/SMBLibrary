@@ -16,8 +16,9 @@ namespace SMBServer
     internal class SMBServerService : ServiceBase
     {
         private static SMBServerSvc svc = null;
+        private string[] onInitArguments;
 
-        public SMBServerService() {}
+        public SMBServerService(string[] args) { onInitArguments = args;  }
 
         protected override void OnStart(string[] args)
         {
@@ -34,8 +35,9 @@ namespace SMBServer
     public partial class SMBServerService : ServiceBase
     {
         private static SMBServerSvc svc = null;
+        private string[] onInitArguments;
 
-        public SMBServerService() {}
+        public SMBServerService(string[] args) { onInitArguments = args;  }
 
         protected override void OnStart(string[] args)
         {
@@ -55,16 +57,16 @@ namespace SMBServer
         private SMBLibrary.Server.NameServer m_nameServer;
         private LogWriter m_logWriter;
 
-        public static void Run() 
+        public static void Run(string[] args) 
         {
             #if NET20
             ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] { new SMBServerService() };
+            ServicesToRun = new ServiceBase[] { new SMBServerService(args) };
             ServiceBase.Run(ServicesToRun);
             #endif
             #if NET40
             ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] { new SMBServerService() };
+            ServicesToRun = new ServiceBase[] { new SMBServerService(args) };
             ServiceBase.Run(ServicesToRun);
             #endif
         }

@@ -24,9 +24,20 @@ namespace SMBServer
 
             foreach (string arg in args)
             {
+                if (arg == "/help" || arg == "-help")
+                {
+                    string text = "Command Line Arguments:\r\n\r\n" +
+                        "- /help        -- (SMBServer Help)\r\n" +
+                        "- /install     -- (install win service)\r\n" +
+                        "- /uninstall   -- (uninstall win service)\r\n" +
+                        "- /start       -- (start win service)\r\n" +
+                        "- /stop        -- (stop win service)";
+                    System.Windows.Forms.MessageBox.Show(text, "SMB Server", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                };
                 if (arg == "/install" || arg == "-install")
                 {
-                    InstallSvc();
+                    InstallSvc();                    
                     return;
                 };
                 if (arg == "/uninstall" || arg == "-uninstall")
@@ -48,7 +59,7 @@ namespace SMBServer
 
             if (!Environment.UserInteractive)
             {
-                SMBServerSvc.Run();
+                SMBServerSvc.Run(args);
             }
             else
             {
@@ -63,12 +74,23 @@ namespace SMBServer
             try {
                 string fullpath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SMBServer.exe");
                 ServiceInstaller.Install("SMBServerSvc", "SMB Server", fullpath);
+                InstallReg();
                 System.Windows.Forms.MessageBox.Show("SMBServerSvc Successfully Installed", "SMB Server", MessageBoxButtons.OK, MessageBoxIcon.Information);                
             }
             catch (Exception ex)
             {
                 System.Windows.Forms.MessageBox.Show(ex.Message, "SMB Server", MessageBoxButtons.OK, MessageBoxIcon.Error);
             };
+        }
+
+        private static void InstallReg()
+        {
+            try
+            {
+                string fullpath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "svc_info.reg");
+                System.Diagnostics.Process proc = System.Diagnostics.Process.Start("regedit", $"/s {fullpath}");
+            }
+            catch { };
         }
 
         private static void UnInstallSvc()
