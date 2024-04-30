@@ -1,12 +1,14 @@
 **SVC Version**
 ================
-- Allow to change standard ports
-- Minimized Start
-- Tray Icon   
-- SMBServer.exe /install          (install win service)    
-- SMBServer.exe /uninstall        (uninstall win service)    
-- SMBServer.exe /start            (start win service)    
-- SMBServer.exe /stop             (stop win service)
+<img src="Readme.png"/>  
+
+- Allow to change standard ports     
+- Minimized Start           
+- Tray Icon              
+- SMBServer.exe /install          (install win service)               
+- SMBServer.exe /uninstall        (uninstall win service)               
+- SMBServer.exe /start            (start win service)               
+- SMBServer.exe /stop             (stop win service)           
 
 Settings.xml changes:
 =====================
