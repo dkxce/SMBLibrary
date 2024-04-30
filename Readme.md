@@ -4,7 +4,8 @@
 
 - Allow to change standard ports     
 - Minimized Start           
-- Tray Icon              
+- Tray Icon
+- SMBServer.exe /help             (cmd line help)              
 - SMBServer.exe /install          (install win service)               
 - SMBServer.exe /uninstall        (uninstall win service)               
 - SMBServer.exe /start            (start win service)               
