@@ -23,8 +23,8 @@ namespace SMBLibrary.Client
     {
         private const string NTLanManagerDialect = "NT LM 0.12";
 
-        public static readonly int NetBiosOverTCPPort = 139;
-        public static readonly int DirectTCPPort = 445;
+        public static int NetBiosOverTCPPort = 139;
+        public static int DirectTCPPort = 445;
 
         private static readonly ushort ClientMaxBufferSize = 65535; // Valid range: 512 - 65535
         private static readonly ushort ClientMaxMpxCount = 1;
