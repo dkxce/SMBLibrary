@@ -9,7 +9,8 @@
 - SMBServer.exe /install          (install win service)               
 - SMBServer.exe /uninstall        (uninstall win service)               
 - SMBServer.exe /start            (start win service)               
-- SMBServer.exe /stop             (stop win service)           
+- SMBServer.exe /stop             (stop win service)
+- [Client - plugin for Total Commander](https://github.com/dkxce/SMBClient4TotalCommander) (supports non-standard ports)  
 
 Settings.xml changes:
 =====================
